@@ -4,7 +4,13 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-Vue.config.productionTip = false
+//css-lib
+import 'font-awesome/css/font-awesome.css'
+//css
+import '@/assets/css/common.scss'
+
+
+Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
@@ -12,4 +18,4 @@ new Vue({
   router,
   components: { App },
   template: '<App/>'
-})
+});

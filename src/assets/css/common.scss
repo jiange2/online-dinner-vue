@@ -1,0 +1,42 @@
+*{
+  font-family: Microsoft Yahei,Arial,Helvetica,sans-serif;
+}
+
+//modify default style
+a{
+  cursor: pointer;
+}
+
+ul{
+  list-style: none;
+}
+
+img{
+  width: 100%;
+  height: 100%;
+}
+
+//customer common style
+.container{
+  max-width: 1000px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.cut-off-right{
+  border-right: 1px solid #ddd;
+  height: 100%;
+}
+
+.middle{
+  display: flex;
+  align-items: center;
+}
+
+.middle-all{
+  & > * {
+    display: flex;
+    align-items: center;
+  }
+}
+

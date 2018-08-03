@@ -1,12 +1,27 @@
 <template>
   <div id="app">
-    <router-view/>
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created(){
+    this.initLoginUser();
+  },
+  methods: {
+    async initLoginUser(){
+      let res = await this.$http.get(this.$servers.currentUser);
+      let params = res.data;
+      if(params.status === "1"){
+        let client = params.data.client;
+        await this.$store.dispatch("clientLogin",client);
+      }
+    }
+  }
 }
 </script>
 

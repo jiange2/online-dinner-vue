@@ -18,7 +18,7 @@ export default new Router({
     {
       path: '/',
       name: 'login2',
-      component: Login
+      component: ViewImage
     },
     {
       path: '/addImage',

@@ -16,6 +16,8 @@ import servers from './assets/config/servers'
 import util from './assets/js/util'
 import "vue-form-generator/dist/vfg.css";
 import ClientWs from './assets/js/ClientWS'
+//import uploader from 'vue-easy-uploader'
+
 
 //css-lib
 import 'font-awesome/css/font-awesome.css'
@@ -32,9 +34,9 @@ Vue.config.productionTip = false;
 //
 Vue.use(VModal,{ componentName: "vue-modal" });
 Vue.use(Notifications);
-
+//Vue.use(uploader, store);
 //Init WebSocket
-Vue.prototype.$ws = new ClientWs(servers.clientWebSocket);
+//Vue.prototype.$ws = new ClientWs(servers.clientWebSocket);
 
 //config
 axios.defaults.withCredentials = true;

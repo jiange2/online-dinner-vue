@@ -78,21 +78,26 @@
     },
     created(){
       let client = this.$store.getters.client;
-      this.order.phone = client.phone;
-      this.order.phone = client.address;
+      if(client){
+        this.order.phone = client.phone;
+        this.order.address = client.address;
+      }
     },
     methods:{
       async postOrder(){
         let res = await this.$http.post(this.$servers.order,this.createOrder());
         let param = res.data;
-        if(param === "1"){
-
+        if(param.status === "1"){
+          this.$router.push({path:"/order/list"});
         }else{
           let error = param.data.errors[0];
           console.log(error);
           if(error['objectName'] === "user"){
-            await this.$store.dispatch("logout");
+            await this.$store.dispatch("clientLogout");
+            this.$router.push("/login");
             alert(error['defaultMessage']);
+          }else{
+            alert(error.defaultMessage)
           }
         }
       },
@@ -109,8 +114,11 @@
           let orderItem = {};
           orderItem.recipeId = item.id;
           orderItem.count = item.count;
+          orderItem.recipeName = item.recipeName;
+          orderItem.price = item.price;
           orderItems.push(orderItem);
         }
+        data.cost = this.cartSumCost;
         data.items = orderItems;
         return data;
       }

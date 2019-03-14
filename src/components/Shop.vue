@@ -20,12 +20,11 @@
         </li>
       </ul>
       <ul v-if="commentShow" class="comment-items">
-        <li>
-          <CommentItem></CommentItem>
+        <li class="comment-item-wrap" v-for="comment of comments">
+          <CommentItem :comment="comment"></CommentItem>
         </li>
       </ul>
     </div>
-
 
     <div class="cart">
       <!-- v-if="$store.getters.anyRecipe"-->
@@ -84,6 +83,7 @@
         recipes: [],
         shopShow: true,
         commentShow: false,
+        comments: []
       }
     },
     activated() {
@@ -127,8 +127,15 @@
         this.commentShow = false;
         this.shopShow = true;
       },
-      showComment() {
+      async showComment() {
         this.shopShow = false;
+        if(!this.initComment){
+          let res = await this.$http.get(this.$servers.commentList() + this.$route.params['id']);
+          let params = res.data;
+          if(params.status === "1"){
+            this.comments = params.data.commentList;
+          }
+        }
         this.commentShow = true;
       },
       async getShop() {
@@ -178,6 +185,8 @@
 
 <style lang="scss" scoped>
 
+
+
   .title{
     div{
       margin: 0 25px;
@@ -185,7 +194,7 @@
 
       a{
         color: #3b3b3b;
-        font-size: 20px;
+        font-size: 16px;
         height: 99%;
         display: flex;
         align-items: center;
@@ -302,6 +311,18 @@
           background-color: #ffd161;
           color: black;
         }
+      }
+    }
+  }
+  .comment-items{
+    padding: 0;
+
+    .comment-item-wrap{
+      padding: 25px 40px;
+      border-bottom: 1px solid #e5e5e5;
+
+      &:last-child{
+        border-bottom: none;
       }
     }
   }

@@ -47,7 +47,6 @@
             item.serviceStartTime = new Date(item.serviceStartTime);
             this.shops.push(item);
           });
-          console.log(shops);
         }
       }
     }

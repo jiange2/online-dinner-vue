@@ -13,7 +13,7 @@
               </div>
               <div class="middle">
                 <span class="star">
-                  <span :style="{width:16*shop.score+'px'}"></span>
+                  <span :style="{width:15.8*shop.score+'px'}"></span>
                 </span>
                 <span class="point middle">{{shop.score}}分</span>
               </div>
@@ -71,8 +71,6 @@
     .middle {
       height: 100%;
 
-
-
       .shop-img-wrap {
         height: 80px;
         width: 120px;
@@ -126,8 +124,8 @@
   .star {
     display: block;
     position: relative;
-    height: $star-size;
-    width: $star-size * 5;
+    height: $star-size * 0.99;
+    width: $star-size * 4.85;
     background-image: url('/static/star-o.png');
     background-size: $star-size $star-size;
 

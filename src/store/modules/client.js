@@ -16,6 +16,7 @@ const client = {
       state.client = client;
     },
     logout(state){
+      console.log("client logout");
       state.client = null;
     }
   },

@@ -11,7 +11,7 @@
       </section>
       <section class="middle">
         <span class="star">
-          <span :style="{width:14*shop.score+'px'}"></span>
+          <span :style="{width:13.9*shop.score+'px'}"></span>
         </span>
         <span class="point middle">{{shop.score}}分</span>
       </section>
@@ -66,8 +66,8 @@
       .star {
         display: block;
         position: relative;
-        height: $star-size;
-        width: $star-size * 5;
+        height: $star-size * 0.99;
+        width: $star-size * 4.85;
         background-image: url('/static/star-o.png');
         background-size: $star-size $star-size;
 

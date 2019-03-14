@@ -12,8 +12,8 @@
         </header>
         <section>
           <ul>
-            <li>
-              <OrderItem></OrderItem>
+            <li v-for="order of this.orders">
+              <OrderItem :order="order" :ws="ws"></OrderItem>
             </li>
           </ul>
         </section>
@@ -28,6 +28,7 @@
   import InfoSideBar from './common-parts/InfoSideBar';
   import OrderItem from './shop/OrderItem'
   import FooterBar from './common-parts/FooterBar';
+  import ClientWs from '../assets/js/ClientWS';
 
   export default {
     name: "OrderList",
@@ -37,14 +38,60 @@
       'InfoSideBar' : InfoSideBar,
       'FooterBar': FooterBar
     },
+    data(){
+      return {
+        orders: []
+      }
+    },
     activated(){
-      let loginClient = this.$store.getters.client;
-      if(loginClient === null){
-        this.$router.go(-1);
-        alert("请先登录");
-      }else{
-        this.client.phone = loginClient.phone;
-        this.client.address = loginClient.address;
+      this.initOrders();
+    },
+    methods:{
+      async initOrders(){
+        this.orders.splice(0,this.orders.length);
+        this.getNextOrders();
+        this.initWebSocket();
+      },
+      async getNextOrders(){
+        let res = await this.$http.get(this.$servers.listOrders + "/;offset=0;size=10");
+        if(res.data.status === "1"){
+          let page = res.data.data['orderList'];
+          if(page){
+            let orders = page.data;
+
+            if(orders.length > 0){
+              orders[0].showDetail = true;
+              this.orders.push(orders[0]);
+              for (let i = 1; i < orders.length; i++) {
+                orders[i].showDetail = false;
+                this.orders.push(orders[i]);
+              }
+            }
+          }
+        }
+      },
+      initWebSocket(){
+        this.ws = new WebSocket(this.$servers.clientWebSocket());
+        this.ws.onopen = this.handleOpen;
+        this.ws.onmessage = this.handleMessage;
+      },
+      handleOpen(){
+        console.log("ws open");
+      },
+      cancel(index){
+
+      },
+      handleMessage(msg){
+        let data = msg.data;
+        console.log(msg);
+        let res = JSON.parse(data);
+        let updateOrder = res.map.order;
+
+        for(let order of this.orders){
+          if(updateOrder.id === order.id){
+            order.status = updateOrder.status;
+          }
+        }
       }
     }
   }
@@ -80,4 +127,6 @@
       }
     }
   }
+
+
 </style>

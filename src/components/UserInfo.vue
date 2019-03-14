@@ -12,7 +12,7 @@
             </div>
           </div>
           <div class="info">
-            用户名：{{$store.getters.client.loginName}}
+            用户名：{{$store.getters.client.account}}
           </div>
           <div class="info">
             电话号码：{{$store.getters.client.phone}}
@@ -66,6 +66,7 @@
       let loginClient = this.$store.getters.client;
       if(loginClient === null){
         this.$router.go(-1);
+        this.$store.dispatch("clientLogout");
         alert("请先登录");
       }else{
         this.client.id = loginClient.id;
@@ -75,10 +76,14 @@
     },
     methods:{
       async update(){
-        let res = await this.$http.put(this.$servers.updateUser,this.client);
+        let res = await this.$http.put(this.$servers.updateUser(),this.client);
         let status = res.data.status;
         if(status === "1"){
-
+          let client = res.data.data.client;
+          await this.$store.dispatch("clientLogin",client);
+        }else{
+          let errors = res.data.data.errors;
+          alert(errors[0].defaultMessage);
         }
       },
       updateUser(client){

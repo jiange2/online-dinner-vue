@@ -13,7 +13,7 @@
     <div style="box-sizing: border-box" class="form-content">
       <div class="form-wrap">
         <div style="display: flex;justify-content: flex-start">
-          <h1>欢迎登录</h1>
+          <h1>欢迎注册</h1>
         </div>
         <div>
           <input type="text" id="loginName" name="loginName" placeholder="登录名" v-model="user.account"
@@ -26,10 +26,10 @@
           <span class="error">{{ errors.first('password') }}</span>
         </div>
         <div>
-          <div>还没注册?<router-link to="/register">注册</router-link></div>
+          <div>已有账号?<router-link to="/login">登录</router-link></div>
         </div>
         <div>
-          <button class="submit-btn" @click="login">登录</button>
+          <button class="submit-btn" @click="login">注册</button>
         </div>
       </div>
     </div>
@@ -38,10 +38,9 @@
 </template>
 
 <script>
-  import FooterBar from './common-parts/FooterBar';
 
   export default {
-    name: "Login",
+    name: "Register",
     data() {
       return {
         contentHeight: 920,
@@ -58,20 +57,20 @@
       async login() {
         if (await this.$validator.validate()) {
           try {
-            let res = await this.$http.post(this.$servers.userLogin,this.user);
+            let res = await this.$http.post(this.$servers.registerLogin(),this.user);
             let params = res.data;
             if (params.status === "success") {
-              let client = params['data'];
-              await this.$store.dispatch("clientLogin", client);
-              this.$router.push({ path: '/addImage' })
+              let client = params['client'];
+              //await this.$store.dispatch("clientLogin", client);
+              this.$router.push({ path: '/login' })
             } else {
               let errors = params.reason;
               let error = errors[0];
-              this.errorTip("登录失败", error[0])
+              this.errorTip("注册失败", error["defaultMessage"])
             }
           } catch (e) {
             console.log(e);
-            this.errorTip("登录失败", "网络连接错误")
+            this.errorTip("注册失败", "网络连接错误")
           }
         }
       },
@@ -88,7 +87,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   .main-content {
     display: flex;
     justify-content: space-between;

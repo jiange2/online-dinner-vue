@@ -5905,6 +5905,10 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+vue-easy-uploader@^1.0.5:
+  version "1.0.5"
+  resolved "http://registry.npm.taobao.org/vue-easy-uploader/download/vue-easy-uploader-1.0.5.tgz#d2307f75abd5dd15b6d20c85e3335ff8ce4992b8"
+
 vue-form-generator@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/vue-form-generator/-/vue-form-generator-2.2.2.tgz#7b419ff830e0b5a21d9033d65b4583d264336e8e"
